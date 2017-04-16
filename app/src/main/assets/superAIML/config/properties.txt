@@ -1,0 +1,8 @@
+url:http://sourcelawn.com
+name:LimeBOT
+email:hello@limebot.com
+gender:Male
+botmaster:Manu Mohanachandran
+organization:Studyleague
+version:0.0.1
+

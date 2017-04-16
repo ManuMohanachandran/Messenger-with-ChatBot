@@ -1,0 +1,4 @@
+0,HELLO ALICE,*,*,Hello Manu,custom.aiml
+0,DIAL *,*,*,Calling <star/>. <oob><dial><star/></dial></oob> ,custom.aiml
+0,CAMERA,*,*,Calling camera<oob><camera></camera></oob>,custom.aiml
+0,MANU *,*,*,Launching <star/>...<oob><app>app</app></oob>,custom.aiml

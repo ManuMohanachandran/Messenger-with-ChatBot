@@ -1,0 +1,24 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<aiml version="1.0.1" encoding = "UTF-8"?>
+   <category>
+      <pattern> HELLO ALICE </pattern>
+      
+      <template>
+         Hello Manu
+      </template>
+      
+   </category>
+	<category>
+		<pattern>DIAL *</pattern> 
+		<template>Calling <star/>. <oob><dial><star/></dial></oob> </template> 
+	</category>
+	<category>
+		<pattern>CAMERA</pattern> 
+		<template>Calling camera<star/>. <oob><camera></camera></oob></template> 
+	</category>
+
+	<category>
+		<pattern>MANU *</pattern> 
+		<template>Launching <star/>...<oob><app>app</app></oob></template>
+	</category>
+</aiml>
