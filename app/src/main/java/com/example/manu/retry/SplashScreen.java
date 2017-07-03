@@ -37,7 +37,9 @@ public class SplashScreen extends Activity {
         catch(IOException ex) {
             return;
         }
-        startHeavyProcessing();
+        startActivity(new Intent(SplashScreen.this, ChatBot.class));
+        finish();
+        //startHeavyProcessing();
     }
     private void startHeavyProcessing(){
         new LongOperation().execute("");

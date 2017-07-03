@@ -10,10 +10,12 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.AssetManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.Settings;
 import android.speech.RecognizerIntent;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -61,69 +63,84 @@ public class ChatBot extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_bot);
 
+        Intent intent = new Intent(this, HelloRetry.class);
+        startService(intent);
         mListView = (ListView) findViewById(R.id.listview);
         mButtonSend = (Button) findViewById(R.id.send);
         mEditTextMessage = (EditText) findViewById(R.id.editmessage);
         mAdapter = new ChatMessageAdapter(this, new ArrayList<ChatMessage>());
         mListView.setAdapter(mAdapter);
 
-        Intent app = new Intent(Intent.ACTION_MAIN, null);
-        app.addCategory(Intent.CATEGORY_LAUNCHER);
+        /*
+        new AsyncTask<String,Void,String>(){
+            @Override
+            protected String doInBackground(String... params) {
+                //some heavy processing resulting in a Data String
 
-        p = this.getPackageManager();
-        ipkglist=new ArrayList<PackageInfo>();
-        iipkglist=new ArrayList<String>();
-        iiapplist=new ArrayList<String>();
-        pkglist = getPackageManager().getInstalledPackages(0);
-        for (PackageInfo pi:pkglist) {
-            //if (  (pi.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0)
-            {
-                ipkglist.add(pi);
-                Log.e("oanCreate: ",pi.applicationInfo.loadLabel(p).toString()+" "+pi.packageName );
-                iipkglist.add(pi.packageName.toString());
-                iiapplist.add(pi.applicationInfo.loadLabel(p).toString());
+                return "whatever result you have";
             }
-        }
+        }.execute("");
+        */
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+
+            Intent app = new Intent(Intent.ACTION_MAIN, null);
+            app.addCategory(Intent.CATEGORY_LAUNCHER);
+
+            p = this.getPackageManager();
+            ipkglist = new ArrayList<PackageInfo>();
+            iipkglist = new ArrayList<String>();
+            iiapplist = new ArrayList<String>();
+            pkglist = getPackageManager().getInstalledPackages(0);
+            for (PackageInfo pi : pkglist) {
+                //if (  (pi.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0)
+                {
+                    ipkglist.add(pi);
+                    Log.e("oanCreate: ", pi.applicationInfo.loadLabel(p).toString() + " " + pi.packageName);
+                    iipkglist.add(pi.packageName.toString());
+                    iiapplist.add(pi.applicationInfo.loadLabel(p).toString());
+                }
+            }
 
 //code for sending the message
-        mButtonSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String message =omsg= mEditTextMessage.getText().toString();
-                //bot
-                String response = chat.multisentenceRespond(mEditTextMessage.getText().toString());
-                if (TextUtils.isEmpty(message)) {
-                    return;
+            mButtonSend.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String message = omsg = mEditTextMessage.getText().toString();
+                    //bot
+                    String response = chat.multisentenceRespond(mEditTextMessage.getText().toString());
+                    if (TextUtils.isEmpty(message)) {
+                        return;
+                    }
+                    sendMessage(message);
+                    mimicOtherMessage(response);
+                    mEditTextMessage.setText("");
+                    mListView.setSelection(mAdapter.getCount() - 1);
                 }
-                sendMessage(message);
-                mimicOtherMessage(response);
-                mEditTextMessage.setText("");
-                mListView.setSelection(mAdapter.getCount() - 1);
-            }
-        });
+            });
 
-        speak = (Button) findViewById(R.id.stt);
-        speak.setOnClickListener(new View.OnClickListener() {
+            speak = (Button) findViewById(R.id.stt);
+            speak.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                // This are the intents needed to start the Voice recognizer
-                Intent i = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-                i.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                        RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-                i.putExtra(RecognizerIntent.EXTRA_PROMPT, "Say something");
+                @Override
+                public void onClick(View v) {
+                    // TODO Auto-generated method stub
+                    // This are the intents needed to start the Voice recognizer
+                    Intent i = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                    i.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                            RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+                    i.putExtra(RecognizerIntent.EXTRA_PROMPT, "Say something");
 
-                startActivityForResult(i, 1010);
-            }
-        });
-        //checking SD card availablility
-        boolean a = isSDCARDAvailable();
-        //receiving the assets from the app directory
-        AssetManager assets = getResources().getAssets();
-        File jayDir = new File(Environment.getExternalStorageDirectory().toString() + "/superaiml/bots/superAIML");
-        File todel= new File(Environment.getExternalStorageDirectory().toString() + "/superaiml");
-        deleteRecursive(todel);
+                    startActivityForResult(i, 1010);
+                }
+            });
+            //checking SD card availablility
+            boolean a = isSDCARDAvailable();
+            //receiving the assets from the app directory
+            AssetManager assets = getResources().getAssets();
+            File jayDir = new File(Environment.getExternalStorageDirectory().toString() + "/superaiml/bots/superAIML");
+            File todel = new File(Environment.getExternalStorageDirectory().toString() + "/superaiml");
+            deleteRecursive(todel);
         /*
         File afile = new File(Environment.getExternalStorageDirectory().toString());
         String[] directories = afile.list(new FilenameFilter() {
@@ -134,57 +151,60 @@ public class ChatBot extends AppCompatActivity {
         });
         System.out.println(Arrays.toString(directories));
         */
-        boolean b = jayDir.mkdirs();
-        if (jayDir.exists()) {
-            //Reading the file
-            try {
-                for (String dir : assets.list("superAIML")) {
-                    File subdir = new File(jayDir.getPath() + "/" + dir);
-                    boolean subdir_check = subdir.mkdirs();
-                    for (String file : assets.list("superAIML/" + dir)) {
-                        File f = new File(jayDir.getPath() + "/" + dir + "/" + file);
-                        if (f.exists()) {
-                            continue;
+            boolean b = jayDir.mkdirs();
+            if (jayDir.exists()) {
+                //Reading the file
+                try {
+                    for (String dir : assets.list("superAIML")) {
+                        File subdir = new File(jayDir.getPath() + "/" + dir);
+                        boolean subdir_check = subdir.mkdirs();
+                        for (String file : assets.list("superAIML/" + dir)) {
+                            File f = new File(jayDir.getPath() + "/" + dir + "/" + file);
+                            if (f.exists()) {
+                                continue;
+                            }
+                            InputStream in = null;
+                            OutputStream out = null;
+                            in = assets.open("superAIML/" + dir + "/" + file);
+                            out = new FileOutputStream(jayDir.getPath() + "/" + dir + "/" + file);
+                            //copy file from assets to the mobile's SD card or any secondary memory
+                            copyFile(in, out);
+                            in.close();
+                            in = null;
+                            out.flush();
+                            out.close();
+                            out = null;
                         }
-                        InputStream in = null;
-                        OutputStream out = null;
-                        in = assets.open("superAIML/" + dir + "/" + file);
-                        out = new FileOutputStream(jayDir.getPath() + "/" + dir + "/" + file);
-                        //copy file from assets to the mobile's SD card or any secondary memory
-                        copyFile(in, out);
-                        in.close();
-                        in = null;
-                        out.flush();
-                        out.close();
-                        out = null;
                     }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
+            }
+//get the working directory
+            MagicStrings.root_path = Environment.getExternalStorageDirectory().toString() + "/superAIML";
+            System.out.println("Working Directory = " + MagicStrings.root_path);
+            AIMLProcessor.extension = new PCAIMLProcessorExtension();
+//Assign the AIML files to bot for processing
+            bot = new Bot("superAIML", MagicStrings.root_path, "chat");
+            chat = new Chat(bot);
+            String[] args = null;
+            mainFunction(args);
+
+            Intent i = getIntent();
+            String s = i.getStringExtra(MainActivity.s);
+            s = "";
+            if (!s.equals("")) {
+                s = "MY NAME IS " + s;
+                mimicOtherMessage(chat.multisentenceRespond(s));
+            } else {
+                s = "HI";
+                mimicOtherMessage(chat.multisentenceRespond(s));
             }
         }
-//get the working directory
-        MagicStrings.root_path = Environment.getExternalStorageDirectory().toString() + "/superAIML";
-        System.out.println("Working Directory = " + MagicStrings.root_path);
-        AIMLProcessor.extension =  new PCAIMLProcessorExtension();
-//Assign the AIML files to bot for processing
-        bot = new Bot("superAIML", MagicStrings.root_path, "chat");
-        chat = new Chat(bot);
-        String[] args = null;
-        mainFunction(args);
-
-        Intent i=getIntent();
-        String s=i.getStringExtra(MainActivity.s);
-        s="";
-        if (!s.equals(""))
-        {
-            s="MY NAME IS " +s;
-            mimicOtherMessage(chat.multisentenceRespond(s));
-        }
-        else
-        {
-            s="HI";
-            mimicOtherMessage(chat.multisentenceRespond(s));
+        else {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
+            return;
         }
     }
 
@@ -288,5 +308,30 @@ public class ChatBot extends AppCompatActivity {
     private void mimicOtherMessage() {
         ChatMessage chatMessage = new ChatMessage(null, false, true);
         mAdapter.add(chatMessage);
+    }
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 1: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                    finish();
+                    startActivity(getIntent());
+
+                } else {
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                    ChatMessage chatMessage = new ChatMessage("Oops! I need your storage access to talk to you!", false, false);
+                    mAdapter.add(chatMessage);
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
     }
 }
