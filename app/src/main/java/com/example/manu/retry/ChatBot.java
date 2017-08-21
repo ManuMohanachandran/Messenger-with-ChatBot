@@ -2,6 +2,7 @@ package com.example.manu.retry;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -16,6 +17,7 @@ import android.os.Environment;
 import android.provider.Settings;
 import android.speech.RecognizerIntent;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -63,8 +65,6 @@ public class ChatBot extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_bot);
 
-        Intent intent = new Intent(this, HelloRetry.class);
-        startService(intent);
         mListView = (ListView) findViewById(R.id.listview);
         mButtonSend = (Button) findViewById(R.id.send);
         mEditTextMessage = (EditText) findViewById(R.id.editmessage);
@@ -206,6 +206,8 @@ public class ChatBot extends AppCompatActivity {
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
             return;
         }
+        Intent intent = new Intent(this, HelloRetry.class);
+        startService(intent);
     }
 
     public List<ApplicationInfo> getApplicationList(Context con){
@@ -309,6 +311,7 @@ public class ChatBot extends AppCompatActivity {
         ChatMessage chatMessage = new ChatMessage(null, false, true);
         mAdapter.add(chatMessage);
     }
+
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
         switch (requestCode) {
