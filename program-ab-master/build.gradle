@@ -1,0 +1,13 @@
+apply plugin: 'java-library'
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation files('libs/slf4j-api-1.7.25.jar')
+    implementation 'joda-time:joda-time:2.3'
+    implementation files('libs/httpclient.jar')
+    implementation files('libs/httpcore.jar')
+    implementation files('libs/json.jar')
+}
+
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"

@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Retry.iml" filepath="$PROJECT_DIR$/Retry.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Messenger-with-ChatBot.iml" filepath="$PROJECT_DIR$/Messenger-with-ChatBot.iml" />
+      <module fileurl="file://C:\Users\manum\StudioProjects\Messenger-with-ChatBot\Retry.iml" filepath="C:\Users\manum\StudioProjects\Messenger-with-ChatBot\Retry.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/program-ab-master/program-ab-master.iml" filepath="$PROJECT_DIR$/program-ab-master/program-ab-master.iml" />
     </modules>
   </component>
 </project>
