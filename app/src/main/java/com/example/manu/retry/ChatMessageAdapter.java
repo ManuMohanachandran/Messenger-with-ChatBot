@@ -44,6 +44,7 @@ public class ChatMessageAdapter extends ArrayAdapter<ChatMessage> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.botchat, parent, false);
             TextView textView = (TextView) convertView.findViewById(R.id.text);
             textView.setText(getItem(position).getContent());
+
         } else if (viewType == MY_IMAGE) {
             //convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_mine_image, parent, false);
         } else {

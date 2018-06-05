@@ -7,7 +7,7 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:layout_alignParentRight="true"
-        android:background="#85C1E9"
+        android:background="@drawable/mechatbubble"
         android:id="@+id/text"/>
 
 </RelativeLayout>

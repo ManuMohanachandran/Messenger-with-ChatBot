@@ -14,8 +14,10 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.Settings;
 import android.speech.RecognizerIntent;
+import android.speech.tts.TextToSpeech;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -27,10 +29,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
@@ -39,19 +44,23 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
+import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import org.alicebot.ab.*;
+import javax.xml.parsers.*;
+import org.w3c.dom.*;
+import org.xml.sax.SAXException;
 
 public class ChatBot extends AppCompatActivity {
 
     private ListView mListView;
-    private Button mButtonSend,speak;
+    private ImageButton mButtonSend,speak;
     private EditText mEditTextMessage;
-    public Bot bot;
-    public static Chat chat;
     private ChatMessageAdapter mAdapter;
     ArrayList<String> results;
-    String omsg;
+    String omsg,answer;
 
     PackageManager p;
     List<PackageInfo> ipkglist;
@@ -59,6 +68,9 @@ public class ChatBot extends AppCompatActivity {
     static List<String> iiapplist;
     List<PackageInfo> pkglist;
     static Intent LaunchIntent;
+    ArrayList<ChatMessage> chatarr = new ArrayList<ChatMessage>();
+    TextToSpeech tts;
+    String that="nocontext";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,21 +78,10 @@ public class ChatBot extends AppCompatActivity {
         setContentView(R.layout.activity_chat_bot);
 
         mListView = (ListView) findViewById(R.id.listview);
-        mButtonSend = (Button) findViewById(R.id.send);
+        mButtonSend = (ImageButton) findViewById(R.id.send);
         mEditTextMessage = (EditText) findViewById(R.id.editmessage);
-        mAdapter = new ChatMessageAdapter(this, new ArrayList<ChatMessage>());
+        mAdapter = new ChatMessageAdapter(this, chatarr);
         mListView.setAdapter(mAdapter);
-
-        /*
-        new AsyncTask<String,Void,String>(){
-            @Override
-            protected String doInBackground(String... params) {
-                //some heavy processing resulting in a Data String
-
-                return "whatever result you have";
-            }
-        }.execute("");
-        */
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
 
@@ -106,20 +107,48 @@ public class ChatBot extends AppCompatActivity {
             mButtonSend.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String message = omsg = mEditTextMessage.getText().toString();
-                    //bot
-                    String response = chat.multisentenceRespond(mEditTextMessage.getText().toString());
+                    String message = omsg = mEditTextMessage.getText().toString().trim();
+                    message=TextProcessor.Process(message.toLowerCase());
+                    Log.e("onClick: ", message);
                     if (TextUtils.isEmpty(message)) {
                         return;
                     }
                     sendMessage(message);
-                    mimicOtherMessage(response);
+                    try {
+                        aimlparser(message);
+                    } catch (ParserConfigurationException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (SAXException e) {
+                        e.printStackTrace();
+                    }
+                    //mimicOtherMessage(response);
                     mEditTextMessage.setText("");
                     mListView.setSelection(mAdapter.getCount() - 1);
                 }
             });
 
-            speak = (Button) findViewById(R.id.stt);
+            tts=new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+
+                @Override
+                public void onInit(int status) {
+                    // TODO Auto-generated method stub
+                    if(status == TextToSpeech.SUCCESS){
+                        int result=tts.setLanguage(new Locale("en","IN"));
+                        if(result==TextToSpeech.LANG_MISSING_DATA ||
+                                result==TextToSpeech.LANG_NOT_SUPPORTED){
+                            Log.e("error", "This Language is not supported");
+                        }
+                        else{
+                            //tts.speak(answer, TextToSpeech.QUEUE_FLUSH, null);
+                        }
+                    }
+                    else
+                        Log.e("error", "Initilization Failed!");
+                }
+            });
+            speak = (ImageButton) findViewById(R.id.stt);
             speak.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -138,34 +167,25 @@ public class ChatBot extends AppCompatActivity {
             boolean a = isSDCARDAvailable();
             //receiving the assets from the app directory
             AssetManager assets = getResources().getAssets();
-            File jayDir = new File(Environment.getExternalStorageDirectory().toString() + "/superaiml/bots/superAIML");
-            File todel = new File(Environment.getExternalStorageDirectory().toString() + "/superaiml");
+            File jayDir = new File(Environment.getExternalStorageDirectory().toString() + "/chatbot");
+            File todel = new File(Environment.getExternalStorageDirectory().toString() + "/chatbot");
             deleteRecursive(todel);
-        /*
-        File afile = new File(Environment.getExternalStorageDirectory().toString());
-        String[] directories = afile.list(new FilenameFilter() {
-            @Override
-            public boolean accept(File current, String name) {
-                return new File(current, name).isDirectory();
-            }
-        });
-        System.out.println(Arrays.toString(directories));
-        */
+
             boolean b = jayDir.mkdirs();
             if (jayDir.exists()) {
                 //Reading the file
                 try {
-                    for (String dir : assets.list("superAIML")) {
+                    for (String dir : assets.list("chatbot")) {
                         File subdir = new File(jayDir.getPath() + "/" + dir);
                         boolean subdir_check = subdir.mkdirs();
-                        for (String file : assets.list("superAIML/" + dir)) {
+                        for (String file : assets.list("chatbot/" + dir)) {
                             File f = new File(jayDir.getPath() + "/" + dir + "/" + file);
                             if (f.exists()) {
                                 continue;
                             }
                             InputStream in = null;
                             OutputStream out = null;
-                            in = assets.open("superAIML/" + dir + "/" + file);
+                            in = assets.open("chatbot/" + dir + "/" + file);
                             out = new FileOutputStream(jayDir.getPath() + "/" + dir + "/" + file);
                             //copy file from assets to the mobile's SD card or any secondary memory
                             copyFile(in, out);
@@ -180,25 +200,16 @@ public class ChatBot extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-//get the working directory
-            MagicStrings.root_path = Environment.getExternalStorageDirectory().toString() + "/superAIML";
-            System.out.println("Working Directory = " + MagicStrings.root_path);
-            AIMLProcessor.extension = new PCAIMLProcessorExtension();
-//Assign the AIML files to bot for processing
-            bot = new Bot("superAIML", MagicStrings.root_path, "chat");
-            chat = new Chat(bot);
-            String[] args = null;
-            mainFunction(args);
 
             Intent i = getIntent();
             String s = i.getStringExtra(MainActivity.s);
             s = "";
             if (!s.equals("")) {
                 s = "MY NAME IS " + s;
-                mimicOtherMessage(chat.multisentenceRespond(s));
+                //mimicOtherMessage(chat.multisentenceRespond(s));
             } else {
                 s = "HI";
-                mimicOtherMessage(chat.multisentenceRespond(s));
+                //mimicOtherMessage(chat.multisentenceRespond(s));
             }
         }
         else {
@@ -253,18 +264,7 @@ public class ChatBot extends AppCompatActivity {
             out.write(buffer, 0, read);
         }
     }
-    //Request and response of user and the bot
-    public static void mainFunction (String[] args) {
-        MagicBooleans.trace_mode = false;
-        System.out.println("trace mode = " + MagicBooleans.trace_mode);
-        Graphmaster.enableShortCuts = true;
-        Timer timer = new Timer();
-        String request = "Hello.";
-        String response = chat.multisentenceRespond(request);
 
-        System.out.println("Human: "+request);
-        System.out.println("Robot: " + response);
-    }
     private void sendMessage(String message) {
         ChatMessage chatMessage = new ChatMessage(message, true, false);
         mAdapter.add(chatMessage);
@@ -272,6 +272,183 @@ public class ChatBot extends AppCompatActivity {
         //mimicOtherMessage("HelloWorld");
     }
 
+    public void aimlparser(String message) throws ParserConfigurationException, IOException, SAXException {
+        int delaybound=0;
+int flag=0;
+        try {
+            StringBuilder sb=new StringBuilder("Searching:\n");
+            File datadir = new File(Environment.getExternalStorageDirectory().toString() + "/chatbot/cbml");
+            for (File dataFile:datadir.listFiles()) {
+                DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+                DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+                Document doc = dBuilder.parse(dataFile);
+                doc.getDocumentElement().normalize();
+                System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
+                NodeList nList = doc.getElementsByTagName("category");
+                System.out.println("----------------------------");
+
+                for (int temp = 0; temp < nList.getLength(); temp++) {
+                    Node nNode = nList.item(temp);
+                    System.out.println("\nCurrent Element :" + nNode.getNodeName());
+                    NodeList pList=nNode.getChildNodes();
+
+                    if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                        Element eElement = (Element) nNode;
+                        for (int ptemp = 1; ptemp < pList.getLength(); ptemp=ptemp+2) {
+                            Node pNode = pList.item(ptemp);
+                            System.out.println("\nCurrent Element yo :" + pNode.getNodeName());
+                            if (pNode.getNodeType() == Node.ELEMENT_NODE) {
+                                if (ptemp<pList.getLength()-3)
+                                    sb.append("Pattern: "
+                                            + pNode.getTextContent() + "\n");
+                                else
+                                    sb.append("Template: "
+                                            + pNode.getTextContent() + "\n");
+/*
+
+                            sb.append("Template : "
+                                    + eElement
+                                    .getElementsByTagName("template")
+                                    .item(0)
+                                    .getTextContent().trim() + "\n");
+ */
+                                String ps = pNode.getTextContent().trim();
+                                String ms = message;
+                                ps = ps.replace("*", "(\\w|\\s)*");
+                                Pattern p = Pattern.compile(ps,Pattern.CASE_INSENSITIVE);
+                                Matcher m = p.matcher(ms);
+                                NodeList nl = eElement.getElementsByTagName("that");
+                                int maxthatlength=nl.getLength();
+
+                                if (m.matches() && that.equalsIgnoreCase(eElement.getElementsByTagName("that").item(maxthatlength-1).getTextContent()) && !that.equalsIgnoreCase("nocontext"))
+                                {
+                                    flag=1;
+                                    Log.e("aimlparser: ", "Heya "+eElement
+                                            .getElementsByTagName("template")
+                                            .item(0)
+                                            .getTextContent().trim());
+                                    ChatMessage chatMessage = new ChatMessage(sb.toString(), false, false);
+                                    //mAdapter.add(chatMessage);
+
+                                    chatMessage = new ChatMessage("Pattern: "
+                                            + pNode
+                                            .getTextContent() + "\nTemplate : "
+                                            + eElement
+                                            .getElementsByTagName("template")
+                                            .item(0)
+                                            .getTextContent().trim(), false, false);
+                                    answer=eElement
+                                            .getElementsByTagName("template")
+                                            .item(0)
+                                            .getTextContent();
+                                    chatMessage = new ChatMessage(answer, false, false);
+                                    final ChatMessage typechatmessage=new ChatMessage("typing...", false, false);
+                                    mAdapter.add(typechatmessage);
+                                    final ChatMessage finalChatMessage = chatMessage;
+                                    final Handler handler = new Handler();
+                                    delaybound=new Random().nextInt(3000)+1000+delaybound;
+                                    handler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            mAdapter.remove(typechatmessage);
+                                            mAdapter.add(finalChatMessage);
+                                            tts.speak(answer, TextToSpeech.QUEUE_ADD, null);
+                                        }
+                                    }, delaybound);
+                                    if (!answer.equalsIgnoreCase("Sorry, I couldn't get you."))
+                                    break;
+                                }
+
+
+                            }
+                        }
+                        for (int ptemp = 1; ptemp < pList.getLength(); ptemp=ptemp+2) {
+                            Node pNode = pList.item(ptemp);
+                            System.out.println("\nCurrent Element yo :" + pNode.getNodeName());
+                            if (pNode.getNodeType() == Node.ELEMENT_NODE) {
+                                if (ptemp<pList.getLength()-3)
+                                    sb.append("Pattern: "
+                                            + pNode.getTextContent() + "\n");
+                                else
+                                    sb.append("Template: "
+                                            + pNode.getTextContent() + "\n");
+/*
+
+                            sb.append("Template : "
+                                    + eElement
+                                    .getElementsByTagName("template")
+                                    .item(0)
+                                    .getTextContent().trim() + "\n");
+ */
+                                String ps = pNode.getTextContent().trim();
+                                String ms = message;
+                                ps = ps.replace("*", "(\\w|\\s)*");
+                                Pattern p = Pattern.compile(ps,Pattern.CASE_INSENSITIVE);
+                                Matcher m = p.matcher(ms);
+                                NodeList nl = eElement.getElementsByTagName("that");
+                                int maxthatlength=nl.getLength();
+
+                                if (m.matches() && eElement.getElementsByTagName("that").item(0).getTextContent().equalsIgnoreCase("nocontext")) {
+                                    flag=1;
+                                    that=eElement.getElementsByTagName("that").item(maxthatlength-1).getTextContent();
+                                    sb.append("Template: "
+                                            + eElement
+                                            .getElementsByTagName("template")
+                                            .item(0)
+                                            .getTextContent().trim() + "\n");
+                                    ChatMessage chatMessage = new ChatMessage(sb.toString(), false, false);
+                                    //mAdapter.add(chatMessage);
+
+                                    chatMessage = new ChatMessage("Pattern: "
+                                            + pNode
+                                            .getTextContent() + "\nTemplate : "
+                                            + eElement
+                                            .getElementsByTagName("template")
+                                            .item(0)
+                                            .getTextContent().trim(), false, false);
+                                    answer=eElement
+                                            .getElementsByTagName("template")
+                                            .item(0)
+                                            .getTextContent();
+                                    chatMessage = new ChatMessage(answer, false, false);
+                                    final ChatMessage typechatmessage=new ChatMessage("typing...", false, false);
+                                    mAdapter.add(typechatmessage);
+                                    final ChatMessage finalChatMessage = chatMessage;
+                                    final Handler handler = new Handler();
+                                    delaybound=new Random().nextInt(3000)+1000+delaybound;
+                                    handler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            mAdapter.remove(typechatmessage);
+                                            mAdapter.add(finalChatMessage);
+                                            tts.speak(answer, TextToSpeech.QUEUE_ADD, null);
+                                        }
+                                    }, delaybound);
+                                    break;
+                                }
+                            }
+                        }
+                        System.out.println("Pattern: "
+                                + eElement
+                                .getElementsByTagName("pattern")
+                                .item(0)
+                                .getTextContent());
+                        System.out.println("Template : "
+                                + eElement
+                                .getElementsByTagName("template")
+                                .item(0)
+                                .getTextContent());
+
+                    }
+                    if (flag==1)break;
+                }
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
     private void mimicOtherMessage(String message) {
 
         if (!message.contains("<oob>"))

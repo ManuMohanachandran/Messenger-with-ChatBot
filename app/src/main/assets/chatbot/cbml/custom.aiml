@@ -1,0 +1,848 @@
+
+<aiml>	
+
+	<category>
+	<that>nocontext</that>
+	<that>mainoffice</that>
+	<pattern>Where*office</pattern>
+	<pattern>En route*office</pattern>
+	<pattern>Locate*office</pattern>
+	<pattern>Find*office</pattern>
+	<pattern>Can*office</pattern>
+	<pattern>office</pattern>
+
+	<template>Engineering office or Management office?</template>
+</category>
+
+<category>
+       <that>mainoffice</that>
+       <pattern>Engineering*</pattern>
+
+       <template>The main administration office of Engineering is just on the right of your current position.</template>
+   </category>
+
+   <category>
+	<that>mainoffice</that>
+    <pattern>Management*</pattern>
+
+	<template>The Management Office is just to the left of your current position.</template>
+</category>
+
+<category>
+    	<that>nocontext</that>
+    	<that>canteen</that>
+    	<pattern>Where*canteen</pattern>
+    	<pattern>En route*canteen</pattern>
+    	<pattern>Locate*canteen</pattern>
+    	<pattern>Find*canteen</pattern>
+    	<pattern>Can*canteen</pattern>
+    	<pattern>canteen</pattern>
+
+    	<template>New canteen or Old canteen?</template>
+    </category>
+
+    <category>
+           <that>canteen</that>
+           <pattern>New*</pattern>
+
+           <template>Move towards your left and take right. Walk until you reach G wing.</template>
+       </category>
+
+       <category>
+    	<that>canteen</that>
+        <pattern>Old*</pattern>
+
+	<template>Move towards your right till the end and take left.</template>
+</category>
+
+	<category>
+		<that>nocontext</that>
+		<pattern>Where*parking*</pattern>
+		<pattern>How*parking*</pattern>
+		<pattern>Help*parking*</pattern>
+		<pattern>En route*parking*</pattern>
+		<pattern>Can*parking*</pattern>
+		<pattern>parking*</pattern>
+
+		<template>The parking area is just beside the main gate from where you entered into the premises.</template>
+	</category>
+
+	<category>
+		<that>nocontext</that>
+		<that>lib</that>
+		<pattern>Where*library</pattern>
+		<pattern>Please*library</pattern>
+		<pattern>How*library</pattern>
+		<pattern>En route*library</pattern>
+		<pattern>Can*library</pattern>
+		<pattern>library</pattern>
+
+		<template>Engineering library or Management library?</template>
+	</category>
+
+    <category>
+		<that>lib</that>
+        <pattern>Engineering*</pattern>
+
+		<template>You shall walk towards your left and go to the 3rd floor. You shall find the library just in front of you.</template>
+	</category>
+
+    <category>
+		<that>lib</that>
+        <pattern>Management*</pattern>
+
+		<template>It is on the 3rd floor of G wing.</template>
+	</category>
+
+	<category>
+		<that>nocontext</that>
+		<pattern>Where*workshop*</pattern> 
+                <pattern>How*workshop*</pattern>  
+		<pattern>Enroute*workshop*</pattern>
+		<pattern>Please*workshop*</pattern>
+		<pattern>Can*workshop*</pattern>
+		<pattern>workshop*</pattern>
+		
+		<template>There are multiple workshops in this college. The nearest one is towards the right of where you standing. Go right and then take a left and you shall find the Engineering First year workshop in front of you.</template> 
+	</category>
+
+	<category>
+		<that>nocontext</that>
+		<pattern>How*O Wing</pattern>
+		<pattern>Locate*O Wing</pattern>
+		<pattern>Please*O Wing</pattern> 
+		<pattern>En route*O Wing</pattern>
+		<pattern>Where*O wing*</pattern>
+		<pattern>Can*O wing*</pattern>
+		<pattern>O wing*</pattern>
+
+		<template>Go left from your current position, then take a right and keep moving straight and then take another right and as you walk a few steps you shall find O wing on your right side.</template>
+	</category>
+
+	<category>
+		<that>nocontext</that>
+		<pattern>Where*Physics Lab</pattern>
+		<pattern>Locate*Physics Lab</pattern>
+		<pattern>Please*Physics Lab</pattern>
+		<pattern>En route*Physics Lab</pattern>
+		<pattern>Can*Physics Lab</pattern>
+		<pattern>Physics Lab*</pattern>
+
+		<template>You need to go towards your right and then go to the 1st floor and take a right again. The first lab that you see shall see is the Physics lab.</template>
+	</category>
+
+	<category>
+		<that>nocontext</that>
+		<pattern>Where*Chemistry Lab</pattern>
+		<pattern>Locate*Chemistry Lab</pattern>
+		<pattern>Please*Chemistry Lab</pattern>
+		<pattern>En route*Chemistry Lab</pattern>
+		<pattern>Can*Chemistry Lab</pattern>
+		<pattern>Chemistry Lab*</pattern>
+		
+		<template>You need to go towards your right and then go to the 1st floor and take a right again. The second lab that you see shall see is the Chemistry lab.</template>
+	</category>
+
+	<category>
+		<that>nocontext</that>
+		<pattern>Where*Mechanics Lab</pattern>			
+		<pattern>Locate*Mechanics Lab</pattern>
+		<pattern>Please*Mechanics Lab</pattern>
+		<pattern>En route*Mechanics Lab</pattern>
+		<pattern>Can*Mechanics Lab</pattern>
+		<pattern>Mechanics Lab*</pattern>
+
+		<template>You need to go towards your right and then go to the 2nd floor and take a right again. The first lab that you see shall see is the Mechanics lab.</template>
+	</category>
+
+	<category>	
+		<that>nocontext</that>
+		<pattern>Where*Electronics Lab</pattern>
+		<pattern>Locate*Electronics Lab</pattern>
+		<pattern>Please*Electronics Lab</pattern>
+		<pattern>En route*Electronics Lab</pattern>
+		<pattern>Can*Electronics Lab</pattern>
+		<pattern>Electronics Lab*</pattern>
+
+		<template>You need to go towards your right and then go to the 2nd floor and take a right again. The second lab that you see shall see is the Electronics lab.</template>
+	</category>
+
+	<category>
+		<that>nocontext</that>
+		<pattern>Where*Architecture*</pattern>
+		<pattern>Locate*Architecture*</pattern> 
+		<pattern>Please*Architecture*</pattern> 
+		<pattern>En route*Architecture*</pattern> 
+		<pattern>Can*Architecture*</pattern>
+		<pattern>Architecture*</pattern>
+		
+		<template>Go left from your current position, then take a right and keep moving straight and you shall cross the Lawn Area and the building that you see which has the Canteen below is where the Architecture Classes are.</template>
+	</category>
+
+	<category>
+		<that>nocontext</that>
+		<pattern>Where*Telecommunications Lab</pattern>
+		<pattern>Locate*Telecommunications Lab</pattern> 
+		<pattern>Please*Telecommunications Lab</pattern> 
+		<pattern>En route*Telecommunications Lab</pattern>
+		<pattern>Can*Telecommunications Lab*</pattern>
+		<pattern>Telecommunications Lab*</pattern>
+
+		<template>Go right from your current position and then take the lift to the 5th floor and go right. The first lab is the Telecommunications Lab.</template>
+	</category>
+
+	<category>
+		<that>nocontext</that>
+		<pattern>Where*Management Office</pattern>
+		<pattern>Locate*Management Office</pattern> 
+		<pattern>Please*Management office</pattern> 
+		<pattern>En route*Management Office</pattern>
+		<pattern>Can*Management Office</pattern>
+		<pattern>How*Management Office</pattern> 
+		<pattern>Management Office*</pattern> 
+
+		<template>The Management Office is just to the left of your current position.</template>
+	</category>
+
+	<category>
+		<that>nocontext</that>
+		<pattern>How*Management Building</pattern>
+		<pattern>Where*Management Building</pattern> 
+		<pattern>Please*Management Building</pattern> 
+		<pattern>Locate*Management Building</pattern> 
+		<pattern>En route*Management Building</pattern>
+		<pattern>Can*Management Building</pattern>
+		<pattern>Management Building*</pattern>
+
+		<template>Go left from your current position, then take a right and keep moving straight and you shall cross the Lawn Area and the building that you see which has the Canteen below is the Management Building.</template>
+	</category>
+
+	<category>
+		<that>nocontext</that>
+		<that>HOD Computer</that>
+		<pattern>Can*HOD*Computer*</pattern>
+		<pattern>Who*HOD*Computer*</pattern>
+		<pattern>Name*HOD*computer*</pattern>
+		<pattern>HOD*computer*</pattern>
+
+		<template>The HOD of Computer Department is Dr. Madhumita A. Chatterjee.</template>
+	</category>
+
+	<category>
+		<that>HOD Computer</that>
+		<pattern>Where*her</pattern>
+		<pattern>Where*she*</pattern>
+		<pattern>Where*HOD*Computer*</pattern>
+		<pattern>How*her*</pattern>
+		<pattern>How*HOD*Computer*</pattern>
+		<pattern>*En route*her*</pattern>
+		<pattern>*En route*HOD*Computer*</pattern>
+		
+		<template> Move left from your current position and go to the 4th floor and then go straight. You shall find her in R403.</template>
+	</category>
+
+	<category>
+		<that>nocontext</that>
+		<that>HOD Mechanical*</that>
+		<pattern>Can*HOD*Mechanical*</pattern>
+		<pattern>Who*HOD*Mechanical*</pattern>
+		<pattern>Name*HOD*Mechanical*</pattern>
+		<pattern>HOD*Mechanical*</pattern>
+		
+		<template>The HOD of Mechanical Department is Dr. Dhanraj Tambuskar.</template>
+	</category>
+
+	<category>
+		<that>HOD Mechanical</that>
+		<pattern>Where*him</pattern>
+		<pattern>Where*he*</pattern>
+		<pattern>Where*HOD*Mechanical*</pattern>
+		<pattern>How*him*</pattern>
+		<pattern>How*HOD*Mechanical*</pattern>
+		<pattern>*En route*him*</pattern>
+		<pattern>*En route*HOD*Mechanical*</pattern>
+		
+		<template>Move right from your current position and go to the 1st floor and take a right and keep moving straight and you shall reach J wing. You shall find him in J101.</template>
+	</category>
+
+	<category>
+		<that>nocontext</that>
+		<that>HOD IT</that>
+		<pattern>Can*HOD*IT*</pattern>
+		<pattern>Who*HOD*IT*</pattern> 
+		<pattern>Name*HOD*IT*</pattern>
+		<pattern>HOD*IT*</pattern>
+
+		<template>The HOD of IT Department is Dr.Sharvari Govilkar</template>
+	</category>
+
+	<category>
+		<that>HOD IT</that>
+		<pattern>Where*her</pattern>
+		<pattern>Where*she*</pattern>
+		<pattern>Where*HOD*IT*</pattern>
+		<pattern>How*her*</pattern>
+		<pattern>How*HOD*IT*</pattern>
+		<pattern>*En route*her*</pattern>
+		<pattern>*En route*HOD*IT*</pattern>
+		
+		<template> Move left from your current position and go to the 4th floor and then go straight. You shall find her in R403.</template>
+	</category>
+
+	<category>
+		<that>nocontext</that>
+		<that>HOD Automobile</that>
+		<pattern>Can*HOD*Automobile*</pattern>
+		<pattern>Who*HOD*Automobile*</pattern>
+		<pattern>Name*HOD*Automobile*</pattern>
+		<pattern>HOD*Automobile*</pattern>
+	
+		<template>The HOD of Automobile Department is Dr.Divya Padmanabhan.</template>
+	</category>
+
+	<category>
+		<that>HOD Automobile</that>
+		<pattern>Where*her</pattern>
+		<pattern>Where*she*</pattern>
+		<pattern>Where*HOD*Automobile*</pattern>
+		<pattern>How*her*</pattern>
+		<pattern>How*HOD*Automobile*</pattern>
+		<pattern>*En route*her*</pattern>
+		<pattern>*En route*HOD*Automobile*</pattern>
+		
+		<template> Move left from your current position and go to the 2nd floor and then turn left and go straight and then take a right at the end of the path. You shall find her in O203.</template>
+	</category>
+
+	<category>
+		<that>nocontext</that>
+		<that>HOD Electronics</that>
+		<pattern>Can*HOD*Electronics*</pattern>
+		<pattern>Who*HOD*Electronics*</pattern> 
+		<pattern>Name*HOD*Electronics*</pattern>
+		<pattern>HOD*Electronics*</pattern>
+		
+		<template>The HOD of Electronics Department is Rajendrakumar Khade.</template>
+	</category>
+
+	<category>
+		<that>HOD Electronics</that>
+		<pattern>Where*him</pattern>
+		<pattern>Where*he*</pattern>
+		<pattern>Where*HOD*Electronics*</pattern>
+		<pattern>How*him*</pattern>
+		<pattern>How*HOD*Electronics*</pattern>
+		<pattern>*En route*him*</pattern>
+		<pattern>*En route*HOD*Electronics*</pattern>
+		
+		<template> Move right from your current position and go to the 2nd floor and then turn right and move straight. You shall find him in T203.</template>
+	</category>
+
+	<category>
+		<that>nocontext</that>
+		<pattern>Which*University*college*</pattern>
+		<pattern>Name*University*college*</pattern>
+		<pattern>Can*University*College*</pattern>
+		<pattern>University*College*</pattern>
+	
+		<template>Pillai College is affiliated to the Mumbai University.</template>
+	</category>
+
+	<category>
+		<that>nocontext</that>
+		<pattern>When*college fest*</pattern>
+		<pattern>*which month*fest*</pattern>
+		<pattern>Can*college fest*</pattern>
+		<pattern>college*fest*</pattern>
+
+		<template>The college fest normally takes place in the first week of February. It is called Alegria.</template>
+	</category>
+
+	<category>
+		<that>nocontext</that>
+		<pattern>What*events*fest</pattern>
+		<pattern>Name*events*Alegria</pattern>
+		<pattern>List*events*Alegria</pattern> 
+		<pattern>Can*events*Alegria*</pattern>	
+		<pattern>events*Alegria*</pattern>	
+
+		<template>There are both Technical and Cultural events that take place in Alegria.</template>
+	</category>
+
+	<category>
+		<that>nocontext</that>
+		<pattern>Does*college*Hostel*</pattern>
+		<pattern>How*hostel*</pattern> 
+		<pattern>Tell*hostel*college</pattern>
+		<pattern>Can*hostel*</pattern>
+		<pattern>hostel*</pattern>
+
+		<template>Yes, the college has both Boys and Girls Hostel Facility.</template>
+	</category>
+
+	<category>
+		<that>nocontext</that>
+		<pattern>Where*P wing*</pattern>
+		<pattern>How*P wing*</pattern>
+		<pattern>Locate*P Wing*</pattern>
+		<pattern>Please*P Wing*</pattern>
+		<pattern>En route*P Wing*</pattern>
+		<pattern>Can*P wing*</pattern>
+		<pattern>P wing*</pattern>
+
+		<template>Move right from you current position and then take a left and go straight. You shall find P wing on your right side in the adjacent building.</template>
+	</category>
+
+	<category>
+		<that>nocontext</that>
+		<pattern>How*departments*Engineering*</pattern>
+		<pattern>Tell*engineering departments*</pattern>
+		<pattern>Name*engineering departments*</pattern>
+		<pattern>List*engineering departments </pattern>
+		<pattern>Engineering departments*</pattern>
+
+		<template>There are 6 departments in Engineering.They are Automobile Engineering, Mechanical Engineering, Electronics Engineering, Electronics and Telecommunications Engineering,  Computer Engineering and Information Technology</template>
+	</category>
+
+	<category>
+		<that>nocontext</that>
+		<pattern>Would*intake*Computer*</pattern>
+		<pattern>How much*intake*Computer*</pattern>
+		<pattern>*College intake*Computer*</pattern>
+		<pattern>Can*College intake*Computer*</pattern>
+		<pattern>intake*Computer*</pattern>
+
+		<template>The intake of Computer Department is 120 students.</template>
+	</category>
+
+	<category>
+		<that>nocontext</that>
+		<pattern>What*post graduation*</pattern>
+		<pattern>Name*post graduation*</pattern>
+		<pattern>List*post graduation*</pattern>
+		<pattern>Can*post graduation*</pattern>
+		<pattern>post graduation*</pattern>
+
+
+		<template>ME Electronics, ME Computer Engineering, ME Information Technology, ME Mechanical Engineering.</template>
+	</category>
+
+	<category> 
+		<that>nocontext</that>
+		<that>Principal</that>
+		<pattern>What*Name*Principal*</pattern>
+		<pattern>Who*principal*</pattern>
+		<pattern>Name*principal*</pattern>
+		<pattern>Can*principal*</pattern>
+		<pattern>principal*</pattern>
+
+		<template>The Principal of Pillai College of Engineering is Dr. Sandeep Joshi.</template>
+	</category>
+
+	<category>
+		<that>Principal</that>
+		<pattern>Where*him</pattern>
+		<pattern>Where*he*</pattern>
+		<pattern>*How*</pattern>
+		<pattern>*Enroute*</pattern>
+		
+		<template> Move right from your current position and walk a few steps, You shall find his office on your right.</template>
+	</category>
+		
+	<category>
+		<that>nocontext</that>
+		<that>HOD EXTC</that>
+		<pattern>Can*HOD*EXTC*</pattern>
+		<pattern>Who*HOD*EXTC*</pattern>
+		<pattern>Name*HOD*EXTC*</pattern>
+		<pattern>HOD*EXTC*</pattern>
+
+		<template>The HOD of EXTC Department is Prof. Avinash Vaidya.</template>
+	</category>
+
+	<category>
+		<that>HOD EXTC</that>
+		<pattern>Where*him</pattern>
+		<pattern>Where*he*</pattern>
+		<pattern>Where*HOD*EXTC*</pattern>
+		<pattern>How*him*</pattern>
+		<pattern>How*HOD*EXTC*</pattern>
+		<pattern>*En route*him*</pattern>
+		<pattern>*En route*HOD*EXTC*</pattern>
+		
+		<template> Move right from your current position and go to the 3rd floor and take a right and keep moving straight and you shall reach J wing. You shall find him in J301.</template>
+	</category>
+
+	<category>
+		<that>nocontext</that>
+		<pattern>Give*contact details*</pattern> 
+		<pattern>Can*contact details*</pattern> 
+		<pattern>Could*contact details*</pattern>
+		<pattern>*contact*</pattern>
+
+		<template>These are the immediate links on which you can contact us,
+            		  	Phone:  022-27481764
+            		  	Email : pce@mes.ac.in
+            			Website : www.pce.ac.in </template>
+	</category>
+
+	<category>
+		<that>nocontext</that>
+		<that>CSI</that>
+		<pattern>Who*CSI*</pattern>
+		<pattern>Can*CSI*</pattern>
+		<pattern>CSI*</pattern>
+
+		<template>You can find them at http://www.csi.piit.ac.in/c.html</template>
+	</category>
+
+	<category>
+		<that>nocontext</that>
+		<that>CSI</that>
+		<pattern>Who*head*CSI*</pattern>
+		<pattern>Can*head*CSI*</pattern>
+
+		<template>The head of CSI PCE is Prof. Varunakshi Bhojane</template>
+	</category>
+
+	<category>
+		<that>nocontext</that>
+		<that>exam cell</that>
+		<pattern>How*examination cell*</pattern>
+		<pattern>En route*exam cell*</pattern>
+		<pattern>Please*exam cell*</pattern>
+		<pattern>exam cell*</pattern> 
+
+		<template>Move towards the R wing that is on the left of your current position, then go to the 4th floor, move straight and then take a right and walk straight and you shall find the exam cell on the right.</template>
+	</category>
+
+	<category>
+		<that>nocontext</that>
+		<that>exam cell</that>
+		<pattern>*incharge*exam*</pattern>
+		<pattern>*head*exam*</pattern>
+
+		<template>The head of exam cell is Mrs. Manju Pillai</template>
+	</category>
+
+	<category>
+		<that>nocontext</that>
+		<pattern>Where*auditorium*</pattern>
+		<pattern>Locate*auditorium*</pattern>
+		<pattern>Please*auditorium*</pattern> 
+		<pattern>En route*auditorium*</pattern>
+		<pattern>Can*auditorium*</pattern>
+		<pattern>auditorium*</pattern>
+
+		<template>The auditorium is in the L wing, 7th floor.</template>
+	</category>
+
+	<category>
+		<that>nocontext</that>
+		<pattern>Could*term calendar*</pattern>
+		<pattern>Give*term calendar*</pattern> 
+		<pattern>Show*term calendar*</pattern> 
+		<pattern>Can*term calendar*</pattern>
+		<pattern>term calendar*</pattern>
+
+		<template>You shall find it on http://pce.ac.in/notices/term-calender/</template>
+	</category>
+	
+	<category>
+		<that>nocontext</that>
+		<pattern>Could*timetable*</pattern>
+		<pattern>Give*timetable*</pattern>
+		<pattern>Show*timetable*</pattern>
+		<pattern>Provide*timetable*</pattern>
+		<pattern>timetable*</pattern>
+
+		<template>You shall find it on https://pce.ac.in/notices/class-timetable/</template>
+	</category>
+
+	<category>
+		<that>nocontext</that>
+		<pattern>What*facilities*Hostel*</pattern>
+		<pattern>How*hostel facility*</pattern> 
+		<pattern>Tell*hostel facility*</pattern>
+		<pattern>Can*hostel facility*</pattern> 
+		<pattern>hostel facility*</pattern>
+
+		<template>Pillai College Hostel provides a canteen offering breakfast, lunch and dinner, Daily cleaning service available and 24/7 Security Personnel and CCTV surveillance.</template>
+	</category>
+
+	<category>
+		<that>nocontext</that>
+		<pattern>Name*events*</pattern> 
+		<pattern>What*events*</pattern>
+		<pattern>Can*events*</pattern>
+		<pattern>extracurricular*</pattern> 
+
+		<template>The most prominent events that Pillai College hosts are Alegria,EFL,ECL</template>
+	</category>
+
+
+	<category>
+		<that>nocontext</that>
+		<pattern>List*recruiters*</pattern>
+		<pattern>Name*recruiters*</pattern> 
+		<pattern>Tell*recruiters*</pattern> 
+		<pattern>Can*recruiters*</pattern>
+		<pattern>recruiters*</pattern>
+
+		<template>Some of the prominent recruiters are Infosys, TCS and Reliance Jio</template>
+	</category>
+
+	<category>
+		<that>nocontext</that>
+		<pattern>*Name*founder*</pattern> 
+		<pattern>*Who*founder*</pattern>
+		<pattern>*Can*founder*</pattern>
+		<pattern>founder*</pattern>
+
+		<template>The founder of this college is Dr. K. M. Vasudevan Pillai.</template>
+	</category>
+
+	<category>
+		<that>nocontext</that>
+		<pattern>What*student associations*</pattern>
+		<pattern>Name*student associations*</pattern> 
+		<pattern>Enlist*student associations*</pattern>
+		<pattern>student associations*</pattern> 
+
+		<template>The different student associations are CSI PCE, IEEE, AESA-MESA.</template>
+	</category>
+
+
+	<category>
+		<that>nocontext</that>
+		<pattern>Would*intake*IT*</pattern>
+		<pattern>How much*intake*IT*</pattern>
+		<pattern>How*intake*IT*</pattern>
+		<pattern>intake in IT*</pattern>
+		
+		<template>The intake of IT Department is 120 students.</template>
+	</category>
+	
+	<category>
+		<that>nocontext</that>
+		<pattern>Would*intake*Electronics*</pattern>
+		<pattern>How much*intake*Electronics*</pattern>
+		<pattern>How*intake*Electronics*</pattern>
+		<pattern>intake in Electronics*</pattern>
+		
+		<template>The intake of Electronics Department is 120 students.</template>
+	</category>
+
+	<category>
+		<that>nocontext</that>
+		<pattern>Would*intake*EXTC*</pattern>
+		<pattern>How much*intake*EXTC*</pattern>
+		<pattern>How*intake*EXTC*</pattern>
+		<pattern>intake in EXTC*</pattern>
+		
+		<template>The intake of EXTC Department is 120 students.</template>
+	</category>
+
+	<category>
+		<that>nocontext</that>
+		<pattern>Would*intake*Mechanical*</pattern>
+		<pattern>How much*intake*Mechanical*</pattern>
+		<pattern>How*intake*Mechanical*</pattern>
+		<pattern>intake in Mechanical*</pattern>
+		
+		<template>The intake of Mechanical Department is 120 students.</template>
+	</category>
+	
+	<category>
+		<that>nocontext</that>
+		<pattern>Would*intake*Automobile*</pattern>
+		<pattern>How much*intake*Automobile*</pattern>
+		<pattern>How*intake*Automobile*</pattern>
+		<pattern>intake in Automobile*</pattern>
+		
+		<template>The intake of Automobile Department is 60 students.</template>
+	</category>
+
+	<category>
+		<that>nocontext</that>
+		<that>registrar</that>
+		<pattern>Who*registrar*</pattern>
+		<pattern>Name*registrar*</pattern>
+		<pattern>Can*registrar*</pattern>
+		<pattern>Please*registrar*</pattern>
+		<pattern>registrar*</pattern>
+
+		<template>The registrar of this college is Mr.Kumaran.</template>
+	</category>
+
+	<category>
+		<that>registrar</that>
+		<pattern>Where*him</pattern>
+		<pattern>Where*he*</pattern>
+		<pattern>Where*registrar*</pattern>
+		<pattern>How*him*</pattern>
+		<pattern>How*registrar*</pattern>
+		<pattern>*En route*him*</pattern>
+		<pattern>*En route*registrar*</pattern>
+
+		<template> You can find him in the engineering office on the right side of your current position.</template>
+	</category>
+
+	<category>
+		<that>nocontext</that>
+		<pattern>Where*R wing*</pattern>
+		<pattern>How*R wing*</pattern>
+		<pattern>Locate*R Wing*</pattern>
+		<pattern>Please*R Wing*</pattern>
+		<pattern>En route*R Wing*</pattern>
+		<pattern>R wing*</pattern>
+
+		<template>Move left from you current position and then take a right. You shall find R wing on your left side in the adjacent building.</template>
+	</category>
+
+	<category>
+		<that>nocontext</that>
+		<pattern>Where*S wing*</pattern>
+		<pattern>How*S wing*</pattern>
+		<pattern>Locate*S Wing*</pattern>
+		<pattern>Please*S Wing*</pattern>
+		<pattern>En route*s Wing*</pattern>
+		<pattern>S wing*</pattern>
+
+		<template>You are currently standing in S wing.</template>
+	</category>
+
+	<category>
+		<that>nocontext</that>
+		<pattern>Where*G wing*</pattern>
+		<pattern>How*G wing*</pattern>
+		<pattern>Locate*G Wing*</pattern>
+		<pattern>Please*G Wing*</pattern>
+		<pattern>En route*G Wing*</pattern>
+		<pattern>G wing*</pattern>
+
+		<template>Move left from you current position and then take a right and go straight. You need to enter in the building ahead and go up to reach G wing.</template>
+	</category>
+
+	<category>
+		<that>nocontext</that>
+		<pattern>Where*T wing*</pattern>
+		<pattern>How*T wing*</pattern>
+		<pattern>Locate*T Wing*</pattern>
+		<pattern>Please*T Wing*</pattern>
+		<pattern>En route*T Wing*</pattern>
+		<pattern>T wing*</pattern>
+
+		<template>Move right from you current position and then take a left.You shall find T wing on your right side.</template>
+	</category>
+
+	<category>
+		<that>nocontext</that>
+		<that>FE Coordinator</that>
+		<pattern>Can*coordinator*FE*</pattern>
+		<pattern>Who*coordinator*FE*</pattern>
+		<pattern>Name*coordinator*FE*</pattern>
+		<pattern>*coordinator*FE*</pattern>
+		<pattern>*coordinator*First year*</pattern>
+		<pattern>FE coordinator*</pattern>
+	
+		<template>The coordinator of First Year is Dr. Arun Pillai.</template>
+	</category>
+
+	<category>
+		<that>FE coordinator</that>
+		<pattern>Where*</pattern>
+		<pattern>*find*</pattern>
+		
+		<template> Move left from your current position and go to the 4th floor and then go straight. You shall find him in R403.</template>
+	</category>	
+	
+	<category>
+		<that>nocontext</that>
+		<pattern>Where*canteen*</pattern>
+		<pattern>En route*canteen*</pattern>  
+		<pattern>Locate*canteen*</pattern>  
+		<pattern>Find*canteen*</pattern>
+		<pattern>Can*canteen*</pattern>
+		<pattern>canteen*</pattern>
+
+		<template>Go left from your current position and then take a right and head straight untill you cross the artificial lawn and you shall find the canteen in front of you. Enjoy your meal.</template>
+	</category>
+
+	<category>
+		<that>nocontext</that>
+		<pattern>Where*L wing*</pattern>
+		<pattern>How*L wing*</pattern>
+		<pattern>Locate*L Wing*</pattern>
+		<pattern>Please*L Wing*</pattern>
+		<pattern>En route*L Wing*</pattern>
+		<pattern>L wing*</pattern>
+
+		<template>Move left from you current position and then take a right and go straight. You shall find L wing at the end of the building.</template>
+	</category>
+
+	<category>
+		<that>nocontext</that>
+		<that>TPO</that>
+		<pattern>Can*TPO*</pattern>
+		<pattern>Who*TPO*</pattern>
+		<pattern>Name*TPO*</pattern>
+		<pattern>TPO*</pattern>
+		<pattern>Training Placement Officer*</pattern>
+	
+		<template>The TPO of Pillai College is Mr.Prashant Lokhande.</template>
+	</category>
+
+	<category>
+		<that>TPO</that>
+		<pattern>Where*him</pattern>
+		<pattern>Where*he*</pattern>
+		<pattern>Where*TPO*</pattern>
+		<pattern>How*him*</pattern>
+		<pattern>How*TPO*</pattern>
+		<pattern>*En route*him*</pattern>
+		<pattern>*Enroute*TPO*</pattern>
+		
+		<template> Move left from your current position and take a few steps. You shall find him in the placement cell on your left.</template>
+	</category>
+
+	<category>
+		<that>nocontext</that>
+		<pattern>Where*Gymkhana</pattern>
+		<pattern>Locate*Gymkhana</pattern>
+		<pattern>Please*Gymkhana</pattern>
+		<pattern>En route*Gymkhana</pattern>
+		<pattern>Can*Gymkhana</pattern>
+		<pattern>Gymkhana*</pattern>
+
+		<template>You need to go towards your right and then go to the 2nd floor. You shall find the Gymkhana in fornt of you.</template>
+	</category>
+	
+	<category>
+		<that>nocontext</that>
+		<pattern>Where*conclave</pattern>
+		<pattern>Locate*conclave</pattern>
+		<pattern>Please*conclave</pattern>
+		<pattern>En route*conclave</pattern>
+		<pattern>Can*conclave</pattern>
+		<pattern>conclave*</pattern>
+
+		<template>You need to go towards your left and then go to the 3rd floor of O wing. You shall find the conclave there.</template>
+	</category>
+	
+	<category>
+		<that>nocontext</that>
+		<pattern>Hello*</pattern>
+		<pattern>How are you*</pattern>
+		<pattern>Can*</pattern>
+		<pattern>Please*</pattern>
+
+		<template> Hello, I am Pillai College's virtual assistant. Here to help you about everything regarding Pillai College of Engineering.</template>
+	</category>
+	
+    <category>
+		<that>nocontext</that>
+		<pattern>*</pattern>
+
+		<template>Sorry, I couldn't get you.</template>
+	</category>
+</aiml>
